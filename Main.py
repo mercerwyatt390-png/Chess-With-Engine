@@ -180,7 +180,7 @@ def main():
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, selected_row, mouse_column)
                                 selected_square = False
                                 turn = 1
-                                print("White's Move!")
+                                print("Black's Move!")
                             elif selected_col == mouse_column:
                                 print(selected_piece, selected_row, selected_col, mouse_row, mouse_column)
                                 if BOARD_GRID[mouse_row][mouse_column] > 0:
@@ -190,7 +190,7 @@ def main():
                                 turn = 0
                                 print("White's Move!")
 
-                        if selected_piece == 1: # Light Pawn Movement
+                        elif selected_piece == 1: # Light Pawn Movement
                             if (selected_col == mouse_column and (selected_row - 1) == mouse_row) or (selected_row == 6 and (selected_col == mouse_column and (selected_row - 1 == mouse_row or selected_row - 2 == mouse_row))):
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, selected_col)
                                 selected_square = False
@@ -219,15 +219,18 @@ def main():
                                     selected_square = False
                                     turn = 0
 
-                        if selected_piece == 3:
-                            if (selected_col + 1 == mouse_column or selected_col - 1 == mouse_column) and selected_row + 2 == mouse_row and BOARD_GRID[mouse_row][mouse_column] <= 0:
+                        elif selected_piece == 3: # Light Knight Movement
+                            if ((selected_col + 1 == mouse_column or selected_col - 1 == mouse_column) and (selected_row - 2 == mouse_row or selected_row + 2 == mouse_row) or
+                                (selected_col + 2 == mouse_column or selected_col - 2 == mouse_column) and (selected_row - 1 == mouse_row or selected_row + 1 == mouse_row)) and BOARD_GRID[mouse_row][mouse_column] <= 0:
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
-
-
-
-
-
-
+                                selected_square = False
+                                turn = 1
+                        elif selected_piece == -3: # Dark Knight Movement
+                            if ((selected_col + 1 == mouse_column or selected_col - 1 == mouse_column) and (selected_row - 2 == mouse_row or selected_row + 2 == mouse_row) or
+                                (selected_col + 2 == mouse_column or selected_col - 2 == mouse_column) and (selected_row - 1 == mouse_row or selected_row + 1 == mouse_row)) and BOARD_GRID[mouse_row][mouse_column] >= 0:
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
+                                selected_square = False
+                                turn = 0
                         else:
 
                             if selected_piece >= 0 and BOARD_GRID[mouse_row][mouse_column] <= 0:
