@@ -165,33 +165,18 @@ def main():
                         mouse_column = mouse_pos[0] // SQUARE_SIZE
 
                         if selected_piece == 5: # Light Rook Movement
-                            if selected_row == mouse_row:
-                                piece_move(selected_square, selected_row, selected_col, selected_piece, selected_row, mouse_column)
-                                selected_square = False
-                                turn = 1
-                            elif selected_col == mouse_column:
-                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, selected_col)
+                            if (selected_row == mouse_row or selected_col == mouse_column) and BOARD_GRID[mouse_row][mouse_column] <= 0:
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
                                 selected_square = False
                                 turn = 1
                         elif selected_piece == -5: # Dark Rook Movement
-                            if selected_row == mouse_row:
-                                if BOARD_GRID[mouse_row][mouse_column] > 0:
-                                    print("Capture!")
-                                piece_move(selected_square, selected_row, selected_col, selected_piece, selected_row, mouse_column)
-                                selected_square = False
-                                turn = 1
-                                print("Black's Move!")
-                            elif selected_col == mouse_column:
-                                print(selected_piece, selected_row, selected_col, mouse_row, mouse_column)
-                                if BOARD_GRID[mouse_row][mouse_column] > 0:
-                                    print("Capture!")
-                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, selected_col)
+                            if (selected_row == mouse_row or selected_col == mouse_column) and BOARD_GRID[mouse_row][mouse_column] >= 0:
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
                                 selected_square = False
                                 turn = 0
-                                print("White's Move!")
 
                         elif selected_piece == 1: # Light Pawn Movement
-                            if (selected_col == mouse_column and (selected_row - 1) == mouse_row) or (selected_row == 6 and (selected_col == mouse_column and (selected_row - 1 == mouse_row or selected_row - 2 == mouse_row))):
+                            if ((selected_col == mouse_column and (selected_row - 1) == mouse_row) or (selected_row == 6 and (selected_col == mouse_column and (selected_row - 1 == mouse_row or selected_row - 2 == mouse_row)))) and BOARD_GRID[mouse_row][mouse_column] == 0:
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, selected_col)
                                 selected_square = False
                                 turn = 1
@@ -205,7 +190,7 @@ def main():
                                     selected_square = False
                                     turn = 1
                         elif selected_piece == -1: # Dark Pawn Movement
-                            if (selected_col == mouse_column and (selected_row + 1) == mouse_row) or (selected_row == 1 and (selected_col == mouse_column and (selected_row + 1 == mouse_row or selected_row + 2 == mouse_row))):
+                            if ((selected_col == mouse_column and (selected_row + 1) == mouse_row) or (selected_row == 1 and (selected_col == mouse_column and (selected_row + 1 == mouse_row or selected_row + 2 == mouse_row)))) and BOARD_GRID[mouse_row][mouse_column] == 0:
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, selected_col)
                                 selected_square = False
                                 turn = 0
@@ -231,17 +216,36 @@ def main():
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
                                 selected_square = False
                                 turn = 0
-                        else:
 
-                            if selected_piece >= 0 and BOARD_GRID[mouse_row][mouse_column] <= 0:
-                                if BOARD_GRID[mouse_row][mouse_column] < 0:
-                                    print("Capture!")
+                        elif selected_piece == 4: # Light Bishop
+                            if ((abs(selected_col - mouse_column) == abs(selected_row - mouse_row)) and BOARD_GRID[mouse_row][mouse_column] <= 0):
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
                                 selected_square = False
                                 turn = 1
-                            elif selected_piece <= 0 and BOARD_GRID[mouse_row][mouse_column] >= 0:
-                                if BOARD_GRID[mouse_row][mouse_column] > 0:
-                                    print("Capture!")
+                        elif selected_piece == -4: # Light Bishop
+                            if ((abs(selected_col - mouse_column) == abs(selected_row - mouse_row)) and BOARD_GRID[mouse_row][mouse_column] >= 0):
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
+                                selected_square = False
+                                turn = 0
+
+                        elif selected_piece == 9:
+                            if ((selected_row == mouse_row or selected_col == mouse_column or abs(selected_col - mouse_column) == abs(selected_row - mouse_row)) and BOARD_GRID[mouse_row][mouse_column] <= 0):
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
+                                selected_square = False
+                                turn = 1
+                        elif selected_piece == -9:
+                            if ((selected_row == mouse_row or selected_col == mouse_column or abs(selected_col - mouse_column) == abs(selected_row - mouse_row)) and BOARD_GRID[mouse_row][mouse_column] >= 0):
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
+                                selected_square = False
+                                turn = 0
+
+                        elif selected_piece == 10:
+                            if(((abs(selected_row - mouse_row) + abs(selected_col - mouse_column) == 1) or (abs(selected_row - mouse_row) == 1 and abs(selected_col - mouse_column) == 1)) and BOARD_GRID[mouse_row][mouse_column] <= 0):
+                                piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
+                                selected_square = False
+                                turn = 1
+                        elif selected_piece == -10:
+                            if(((abs(selected_row - mouse_row) + abs(selected_col - mouse_column) == 1) or (abs(selected_row - mouse_row) == 1 and abs(selected_col - mouse_column) == 1)) and BOARD_GRID[mouse_row][mouse_column] >= 0):
                                 piece_move(selected_square, selected_row, selected_col, selected_piece, mouse_row, mouse_column)
                                 selected_square = False
                                 turn = 0
